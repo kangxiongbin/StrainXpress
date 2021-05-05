@@ -12,7 +12,7 @@ To install phasebook, firstly, it is recommended to intall the dependencies thro
 ```
 conda create -n strainxpress
 conda activate strainxpress
-conda install -c bioconda python=3.6 minimap2
+conda install -c bioconda python=3.6 scipy pandas minimap2
 ```
 Subsequently, pull down the code to the directory where you want to install, and compile the code:
 ```
