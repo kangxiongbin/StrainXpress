@@ -8,7 +8,7 @@ StrainXpress relies on the following dependencies:
 - [HaploConduct](https://github.com/HaploConduct/HaploConduct)*
 - g++ >=5.5.0 and with boost libraries
 
-To install phasebook, firstly, it is recommended to intall the dependencies through [Conda](https://docs.conda.io/en/latest/):
+To install strainxpress, firstly, it is recommended to intall the dependencies through [Conda](https://docs.conda.io/en/latest/):
 ```
 conda create -n strainxpress
 conda activate strainxpress
@@ -18,5 +18,41 @@ Subsequently, pull down the code to the directory where you want to install, and
 ```
 git clone https://github.com/kangxiongbin/StrainXpress.git
 cd StrainXpress
+sh install.sh
+```
+## Examples
+```
+- Illumina miseq (reads length 2X250bp)
+python ../scripts/strainxpress.py -fq all_reads.fq
+
+- Data set is big
+
+python ../scripts/strainxpress.py -fq all_reads.fq -fast
+
+```
+## Possible issues during installation (optional)
+
+- If `g++` version of the system is not satisfied, one could try this to install:
+```
+conda install -c conda-forge gxx_linux-64=7.3.0
+# replace the /path/to/ with your own path
+ln -s /path/to/miniconda3/envs/strainxpress/bin/x86_64-conda-cos6-linux-gnu-g++ /path/to/miniconda3/envs/strainxpress/bin/g++
+ln -s /path/to/miniconda3/envs/strainxpress/bin/x86_64-conda-cos6-linux-gnu-gcc /path/to/miniconda3/envs/strainxpress/bin/gcc
+```
+- If `boost` or `zlib` library is not installed, one could try this to install:
+```
+conda install -c conda-forge boost zlib
+# set envionment variables
+export LD_LIBRARY_PATH=/path/to/miniconda3/envs/strainxpress/lib/:$LD_LIBRARY_PATH
+export CPATH=/path/to/miniconda3/envs/strainxpress/include/:$CPATH
+```
+
+- If compile error occurs something like `/path/to/miniconda3/envs/strainxpress/x86_64-conda_cos6-linux-gnu/bin/ld: cannot find -lboost_timer `
+or `cannot find -lgomp`, 
+ which means it fails to link `boost` or `libgomp` library, one could try this to solve:
+```
+ln -s /path/to/miniconda3/envs/strainxpress/lib/libboost_* /path/to/miniconda3/envs/strainxpress/x86_64-conda_cos6-linux-gnu/lib/.
+ln -s /path/to/miniconda3/envs/strainxpress/lib/libgomp* /path/to/miniconda3/envs/strainxpress/x86_64-conda_cos6-linux-gnu/lib/.
+# then re-complile and install
 sh install.sh
 ```
