@@ -87,8 +87,9 @@ def main():
     global base_path; 
     global base_path3
     
-    base_path = '/prj/metastrain/software/conda/envs/hap/opt/haploconduct-0.2.1/'
+#    base_path = '/prj/metastrain/software/conda/envs/hap/opt/haploconduct-0.2.1/'
     base_path3 = os.path.split(os.path.realpath(__file__))[0]
+    base_path = base_path3[:-7]+"tools/HaploConduct/"
     
     # test if the SAVAGE binary functions properly
     binary_help = base_path+'/bin/ViralQuasispecies --help'
