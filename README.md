@@ -39,9 +39,9 @@ conda install -c conda-forge gxx_linux-64=7.3.0
 ln -s /path/to/miniconda3/envs/strainxpress/bin/x86_64-conda-cos6-linux-gnu-g++ /path/to/miniconda3/envs/strainxpress/bin/g++
 ln -s /path/to/miniconda3/envs/strainxpress/bin/x86_64-conda-cos6-linux-gnu-gcc /path/to/miniconda3/envs/strainxpress/bin/gcc
 ```
-- If `boost` or `libgomp` library is not installed, one could try this to install:
+- If `boost` library is not installed, you could try this to install:
 ```
-conda install -c conda-forge boost zlib
+conda install -c conda-forge boost
 # set envionment variables
 export LD_LIBRARY_PATH=/path/to/miniconda3/envs/strainxpress/lib/:$LD_LIBRARY_PATH
 export CPATH=/path/to/miniconda3/envs/strainxpress/include/:$CPATH
