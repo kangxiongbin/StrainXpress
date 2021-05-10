@@ -43,7 +43,7 @@ def main():
     folder_name = "fq_"+ str(size)
 
     split_line = "split {} -l {} -d -a 2 sub".format(fq, nu_sub)
-#    execute(split_line)
+    execute(split_line)
 
     cmd = ["minimap2 -t %s -c --sr -X -k 21 -w 11 -s 60 -m 30 -n 2 -r 0 -A 4 -B 2 --end-bonus=100 %s sub0%s 2> /dev/null | python %s/filter_trans_ovlp_inline_v3.py -len 30 -iden 0.9 -oh 1 > sub0%s.map " %(threads, fq, i, bin,i) for i in range(0, split_nu )]
 
@@ -53,12 +53,12 @@ def main():
         fa.write("\n")
 
     cmd_minimap = "cat cmd_overlap.sh | xargs -i -P %s bash -c \"{}\"; cat sub*.map > all_reads.map; rm sub*;" %threads
-#    execute(cmd_minimap) # run the minimap2 and get the overlap file
+    execute(cmd_minimap) # run the minimap2 and get the overlap file
 
-#    if args.fast:
-#        execute("mv all_reads.map  all_reads_sort.map")
-#    else:
-#        execute("sort -n -k3 -r all_reads.map > all_reads_sort.map ; rm all_reads.map;")
+    if args.fast:
+        execute("mv all_reads.map  all_reads_sort.map")
+    else:
+        execute("sort -n -k3 -r all_reads.map > all_reads_sort.map ; rm all_reads.map;")
         
     cmd_fq_name = "python %s/get_readnames.py %s readnames.txt" %(bin, fq) # get the name of reads
     execute(cmd_fq_name)
