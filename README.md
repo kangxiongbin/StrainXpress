@@ -29,6 +29,7 @@ python ../scripts/strainxpress.py -fq all_reads.fq
 
 python ../scripts/strainxpress.py -fq all_reads.fq -fast
 
+- The result is in the stageb folder: contigs.stage_b.fasta
 ```
 ## Possible issues during installation (optional)
 
