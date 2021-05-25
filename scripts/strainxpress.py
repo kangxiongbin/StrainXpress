@@ -52,14 +52,16 @@ def main():
         fa.write(cmd2)
         fa.write("\n")
 
-    cmd_minimap = "cat cmd_overlap.sh | xargs -i -P %s bash -c \"{}\"; cat sub*.map > all_reads.map; rm sub*;" %threads
+    cmd_minimap = "cat cmd_overlap.sh | xargs -i -P %s bash -c \"{}\";" %threads
     execute(cmd_minimap) # run the minimap2 and get the overlap file
 
     if args.fast:
-        execute("mv all_reads.map  all_reads_sort.map")
+        execute("cat sub*.map > all_reads_sort.map")
     else:
-        execute("sort -n -k3 -r all_reads.map > all_reads_sort.map ; rm all_reads.map;")
-        
+        execute("for X in sub*.map; do sort  -k3 -nr < $X > sorted-$X; done;")
+        execute("sort -k3 -nr -m sorted-sub*.map > all_reads_sort.map;")
+
+    execute("rm *sub*;") 
     cmd_fq_name = "python %s/get_readnames.py %s readnames.txt" %(bin, fq) # get the name of reads
     execute(cmd_fq_name)
 
