@@ -21,11 +21,13 @@ cd StrainXpress
 sh install.sh
 ```
 ## Examples
-```
-- Illumina miseq (reads length 2X250bp)
-python ../scripts/strainxpress.py -fq all_reads.fq
 
-- The input file must be interleaved FASTQ and format like below: 
+- Illumina miseq (reads length 2X250bp)
+```
+python ../scripts/strainxpress.py -fq all_reads.fq
+```
+- The input file must be interleaved FASTQ and format like below:
+```
 @S0R0/1
 TATAAGTAAGGCGTTGCGAGCGGGTCGTAAAATATTTTTGATCCGT
 +
@@ -34,10 +36,9 @@ EEEEEGEDJHJ3JHKJMMMLLLKNGOOLLNLOOOMJONLOOIOLMO
 TTGATTATCATGCCGGAAGTGCTGCTCTTGTTCTCTGAAAGAGAAT
 +
 EEEGEHHHJHFJJJJBML2MMLNLLONNLNLOLJONOLNONNNMNF
-
-
+```
 - Data set is big
-
+```
 python ../scripts/strainxpress.py -fq all_reads.fq -fast
 
 - The result is in the stageb folder: contigs.stage_b.fasta
