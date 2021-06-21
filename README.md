@@ -25,6 +25,17 @@ sh install.sh
 - Illumina miseq (reads length 2X250bp)
 python ../scripts/strainxpress.py -fq all_reads.fq
 
+- The input file must be interleaved FASTQ and format like below: 
+@S0R0/1
+TATAAGTAAGGCGTTGCGAGCGGGTCGTAAAATATTTTTGATCCGT
++
+EEEEEGEDJHJ3JHKJMMMLLLKNGOOLLNLOOOMJONLOOIOLMO
+@S0R0/2
+TTGATTATCATGCCGGAAGTGCTGCTCTTGTTCTCTGAAAGAGAAT
++
+EEEGEHHHJHFJJJJBML2MMLNLLONNLNLOLJONOLNONNNMNF
+
+
 - Data set is big
 
 python ../scripts/strainxpress.py -fq all_reads.fq -fast
