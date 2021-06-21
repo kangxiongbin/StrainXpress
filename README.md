@@ -22,11 +22,11 @@ sh install.sh
 ```
 ## Examples
 
-- Illumina miseq (reads length 2X250bp)
+Illumina miseq (reads length 2X250bp)
 ```
 python ../scripts/strainxpress.py -fq all_reads.fq
 ```
-- The input file must be interleaved FASTQ and format like below:
+The input file must be interleaved FASTQ and format like below:
 ```
 @S0R0/1
 TATAAGTAAGGCGTTGCGAGCGGGTCGTAAAATATTTTTGATCCGT
@@ -37,7 +37,7 @@ TTGATTATCATGCCGGAAGTGCTGCTCTTGTTCTCTGAAAGAGAAT
 +
 EEEGEHHHJHFJJJJBML2MMLNLLONNLNLOLJONOLNONNNMNF
 ```
-- Data set is big
+When a data set is big, we recommend to use the fast cluster method:
 ```
 python ../scripts/strainxpress.py -fq all_reads.fq -fast
 
@@ -45,14 +45,14 @@ python ../scripts/strainxpress.py -fq all_reads.fq -fast
 ```
 ## Possible issues during installation (optional)
 
-- If `g++` version of the system is not satisfied, one could try this to install:
+If `g++` version of the system is not satisfied, one could try this to install:
 ```
 conda install -c conda-forge gxx_linux-64=7.3.0
 # replace the /path/to/ with your own path
 ln -s /path/to/miniconda3/envs/strainxpress/bin/x86_64-conda-cos6-linux-gnu-g++ /path/to/miniconda3/envs/strainxpress/bin/g++
 ln -s /path/to/miniconda3/envs/strainxpress/bin/x86_64-conda-cos6-linux-gnu-gcc /path/to/miniconda3/envs/strainxpress/bin/gcc
 ```
-- If `boost` library is not installed, you could try this to install:
+If `boost` library is not installed, you could try this to install:
 ```
 conda install -c conda-forge boost
 # set envionment variables
@@ -60,7 +60,7 @@ export LD_LIBRARY_PATH=/path/to/miniconda3/envs/strainxpress/lib/:$LD_LIBRARY_PA
 export CPATH=/path/to/miniconda3/envs/strainxpress/include/:$CPATH
 ```
 
-- If compile error occurs something like `/path/to/miniconda3/envs/strainxpress/x86_64-conda_cos6-linux-gnu/bin/ld: cannot find -lboost_timer `
+If compile error occurs something like `/path/to/miniconda3/envs/strainxpress/x86_64-conda_cos6-linux-gnu/bin/ld: cannot find -lboost_timer `
 or `cannot find -lgomp`, 
  which means it fails to link `boost` or `libgomp` library, one could try this to solve:
 ```
