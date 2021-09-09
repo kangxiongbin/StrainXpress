@@ -22,7 +22,7 @@ sh install.sh
 ```
 ## Examples
 
-Illumina miseq (reads length 2X250bp)
+Illumina miseq
 ```
 python ../scripts/strainxpress.py -fq all_reads.fq
 ```
