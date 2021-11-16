@@ -39,7 +39,7 @@ def main():
     bin = os.path.split(os.path.realpath(__file__))[0]  
     k = os.path.split(os.path.realpath(__file__))[0]
     nu = int(os.popen("wc -l " + fq ).readline().split()[0])
-    nu_sub = int((nu/(8*split_nu)+1)*8)
+    nu_sub = int(nu/(8*split_nu)+1)*8
     folder_name = "fq_"+ str(size)
 
     split_line = "split {} -l {} -d -a 2 sub".format(fq, nu_sub)
