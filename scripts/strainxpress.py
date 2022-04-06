@@ -136,19 +136,19 @@ def main():
     contig_counts = n                      
     execute("mkdir -p stageb")
     cmd_get_overlap = "cd stageb; minimap2 -t %s --sr -X -c -k 21 -w 11 -s 60 -m 30 -n 2 -r 0 \
-     -A 4 -B 2 --end-bonus=100 ../contigs_b.fastq ../contigs_b.fastq | python3 %s/filter_trans_ovlp_inline_v3.py \
+     -A 4 -B 2 --end-bonus=100 ../contigs_b.fastq ../contigs_b.fastq | python %s/filter_trans_ovlp_inline_v3.py \
       -len 100 -iden 0.99 -oh 2 -sfo > sfoverlaps.out;" %(threads, bin)
     execute(cmd_get_overlap)
     
     # convert minimap format to savage format
-    cmd_convert = "cd stageb; python3 %s/sfo2overlaps.py --in sfoverlaps.out \
+    cmd_convert = "cd stageb; python %s/sfo2overlaps.py --in sfoverlaps.out \
     --out sfoverlap.out.savage --num_singles %s --num_pairs 0; mkdir -p fastq;\
     cp ../contigs_b.fastq ./fastq/singles.fastq;" %(bin, contig_counts)
     execute(cmd_convert)
     
-    cmd_extend = "cd stageb; python3 %s/pipeline_per_stage.v3.py --no_error_correction --remove_branches true \
+    cmd_extend = "cd stageb; python %s/pipeline_per_stage.v3.py --no_error_correction --remove_branches true \
      --stage b --min_overlap_len 100 --min_overlap_perc 0 --edge_threshold 1 --overlaps ./sfoverlap.out.savage \
-     --fastq ./fastq --max_tip_len 1000 --num_threads %s; python3 %s/fastq2fasta.py ./singles.fastq \
+     --fastq ./fastq --max_tip_len 1000 --num_threads %s; python %s/fastq2fasta.py ./singles.fastq \
      ./contigs.stage_b.fasta;" %(bin, threads, bin)
     
     execute(cmd_extend)
