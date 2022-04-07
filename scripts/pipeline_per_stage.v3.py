@@ -19,7 +19,9 @@ Pipeline for de novo viralquasispecies assembly.
 #tmp_path = sys.path[0].split('/')
 tmp_path = os.path.dirname(os.path.abspath(__file__)).split('/')
 selfpath = '/'.join(tmp_path[0:len(tmp_path)-1])
-viralquasispecies = "/prj/metastrain/software/conda/envs/hap/opt/haploconduct-0.2.1/bin/ViralQuasispecies"
+base_path3 = os.path.split(os.path.realpath(__file__))[0]
+viralquasispecies = base_path3[:-7]+"tools/HaploConduct/bin/ViralQuasispecies"
+
 COPYFILES = False
 
 def get_original_readcount(fastq):
