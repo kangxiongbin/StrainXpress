@@ -156,7 +156,7 @@ def main():
     
 
 def execute(cmd):
-    te = os.system(cmd + " 2>out.txt")
+    te = os.system(cmd + " 2>output.txt")
     if te:
         with open("output.txt","r") as file:
             print("Don't execute the command: %s " %cmd, end='')
