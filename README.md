@@ -41,7 +41,7 @@ When a data set is big, we recommend to use the fast cluster method:
 ```
 python ../scripts/strainxpress.py -fq all_reads.fq -fast
 
-- The result is in the stageb folder: contigs.stage_b.fasta
+- The result is in the stageb folder: final_contigs.fasta
 ```
 ## Possible issues during installation (optional)
 
