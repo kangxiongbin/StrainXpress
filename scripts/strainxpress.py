@@ -149,7 +149,7 @@ def main():
     cmd_extend = "cd stageb; python %s/pipeline_per_stage.v3.py --no_error_correction --remove_branches true \
      --stage b --min_overlap_len 100 --min_overlap_perc 0 --edge_threshold 1 --overlaps ./sfoverlap.out.savage \
      --fastq ./fastq --max_tip_len 1000 --num_threads %s; python %s/fastq2fasta.py ./singles.fastq \
-     ./contigs.stage_b.fasta;" %(bin, threads, bin)
+     ./final_contigs.fasta; rm -r contigs_b.fasta contigs_b.fastq contigs_b.fa  fastq graph* p* s*;" %(bin, threads, bin)
     
     execute(cmd_extend)
     
