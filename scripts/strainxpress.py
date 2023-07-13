@@ -45,7 +45,7 @@ def main():
     split_line = "split {} -l {} -d -a 2 sub".format(fq, nu_sub)
     execute(split_line)
 
-    cmd = ["minimap2 -t %s -c --sr -X -k 21 -w 11 -s 60 -m 30 -n 2 -r 0 -A 4 -B 2 --end-bonus=100 %s sub0%s 2> /dev/null | python %s/filter_trans_ovlp_inline_v3.py -len 30 -iden 0.9 -oh 1 > sub0%s.map " %(threads, fq, i, bin,i) for i in range(0, split_nu )]
+    cmd = ["minimap2 -t %s -c --sr -X -k 21 -w 11 -s 60 -m 30 -n 2 -r 0 -A 4 -B 2 --end-bonus=100 %s sub0%s 2> /dev/null | python %s/filter_trans_ovlp_inline_v3.py -len 30 -iden 0.9 -oh 1 | gzip > sub0%s.map.gz " %(threads, fq, i, bin,i) for i in range(0, split_nu )]
 
     cmd2 = "\n".join(cmd)
     with open('cmd_overlap.sh', 'w') as fa:
@@ -56,20 +56,22 @@ def main():
     execute(cmd_minimap) # run the minimap2 and get the overlap file
 
     if args.fast:
-        execute("cat sub*.map > all_reads_sort.map")
+        execute("cat sub*.map.gz > all_reads_sort.map.gz")
     else:
-        execute("for X in sub*.map; do sort  -k3 -nr < $X > sorted-$X; done;")
-        execute("sort -k3 -nr -m sorted-sub*.map > all_reads_sort.map;")
+        execute("for X in sub*.map; do sort  -k3 -nr < zcat $X > sorted-$X; done;")
+        execute("sort -k3 -nr -m sorted-sub*.map | gzip > all_reads_sort.map.gz;")
 
     execute("rm *sub*;") 
     cmd_fq_name = "python %s/get_readnames.py %s readnames.txt" %(bin, fq) # get the name of reads
     execute(cmd_fq_name)
 
-    cmd_cluster1 =  "python %s/bin_pointer_limited_filechunks_shortpath.py all_reads_sort.map readnames.txt %s %s %s" %(bin, size, id, threads)
+    cmd_cluster1 =  "python %s/bin_pointer_limited_filechunks_shortpath.py all_reads_sort.map.gz readnames.txt %s %s %s" %(bin, size, id, threads)
+    cmd_rm_map = "rm all_reads_sort.map.gz"
     cmd_rm = "rm -rf Chunkfile*; rm %s_max%s_final_clustersizes.json %s_max%s_final_clusters_unchained.json %s_max%s_final_clusters.json" %(id, size, id, size, id, size)
     cmd_cluster2 = "python %s/getclusters.py %s_max%s_final %s" %(bin, id, size, threads)
     cmd_cluster3 = "python %s/get_fq_cluster.py %s_max%s_final_clusters_grouped.json %s %s/%s" %(bin, id, size, fq, folder, folder_name)
     execute(cmd_cluster1)
+    execute(cmd_rm_map)
     execute(cmd_cluster2)
     execute(cmd_cluster3)
     execute(cmd_rm)
@@ -149,7 +151,7 @@ def main():
     cmd_extend = "cd stageb; python %s/pipeline_per_stage.v3.py --no_error_correction --remove_branches true \
      --stage b --min_overlap_len 100 --min_overlap_perc 0 --edge_threshold 1 --overlaps ./sfoverlap.out.savage \
      --fastq ./fastq --max_tip_len 1000 --num_threads %s; python %s/fastq2fasta.py ./singles.fastq \
-     ./final_contigs.fasta; rm -r contigs_b.fasta  fastq graph* p* s* removed_tip_sequences.fastq;" %(bin, threads, bin)
+     ./final_contigs.fasta; rm -r contigs_b.fasta fastq graph* p* s* removed_tip_sequences.fastq;" %(bin, threads, bin)
     
     execute(cmd_extend)
     

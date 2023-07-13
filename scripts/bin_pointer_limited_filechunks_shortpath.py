@@ -9,6 +9,7 @@ import math
 from multiprocessing import Value
 import collections
 import os
+import gzip
 from pathlib import Path
 
 #print 'Run this script in Python 2'
@@ -29,16 +30,15 @@ chunksize = 2600000 #This is approximately the number of bytes used for 100000 l
 
 def chunkify(fname):
     fileEnd = os.path.getsize(fname)
-    with open(fname,'rb') as f: #must be binary rb
+    with gzip.open(fname,'rb') as f: #must be binary rb
         chunkEnd = f.tell()
         while True:
             chunkStart = chunkEnd
             f.seek(chunksize,1)
-            f.readline()
+            l = f.readline()
             chunkEnd = f.tell()
             yield chunkStart, chunkEnd - chunkStart
-            if chunkEnd > fileEnd:
-                break
+            if not l: break
 
 # returen the keys and values of dict (read names and number)
 def findhead_nochanges(r):
@@ -97,7 +97,7 @@ def getchunkfile(a):#(chunknum_,chunkstart_,chunksize_):
     chunkstart_ = a[1]
     chunksize_ = a[2]
     with open('Chunkfile_'+run_ID+'_'+str(chunknum_),'w') as fw:
-        with open(ovlpfile,'r') as fo: #Must be binary?
+        with gzip.open(ovlpfile,'rt') as fo: #Must be binary?
             fo.seek(chunkstart_)
             lines = fo.read(chunksize_).splitlines()
             for line in lines:
@@ -159,7 +159,7 @@ if __name__ == '__main__':
 
             linecount, matches = clusteralgorithm('Chunkfile_'+run_ID)
             if sess % threads == 100:
-                with open(ovlpfile,'r') as fo:
+                with gzip.open(ovlpfile,'rt') as fo:
                     fo.seek(sessiondict[sess][1])
                     for line in fo:
                         ln = line.split('\t')
