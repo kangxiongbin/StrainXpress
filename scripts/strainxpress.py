@@ -42,11 +42,13 @@ def main():
     nu_sub = int(nu/(8*split_nu)+1)*8
     folder_name = "fq_"+ str(size)
 
-    split_line = "split {} -l {} -d -a 5 sub".format(fq, nu_sub)
+    sub = "sub"+str(time.time())[-3:]
+    split_line = "split {} -l {} -d -a 5 {}".format(fq, nu_sub, sub)
     execute(split_line)
 
-    cmd = ["minimap2 -t %s -c --sr -X -k 21 -w 11 -s 60 -m 30 -n 2 -r 0 -A 4 -B 2 --end-bonus=100 %s sub0%s 2> /dev/null | python %s/filter_trans_ovlp_inline_v3.py -len 30 -iden 0.9 -oh 1 > sub0%s.map " %(threads, fq, i, bin,i) for i in range(0, split_nu )]
+    sub_overlap = [name for name in os.listdir(folder) if fnmatch(name, sub+"*")]
 
+    cmd = ["minimap2 -t %s -c --sr -X -k 21 -w 11 -s 60 -m 30 -n 2 -r 0 -A 4 -B 2 --end-bonus=100 %s %s 2> /dev/null | python %s/filter_trans_ovlp_inline_v3.py -len 30 -iden 0.9 -oh 1 > %s.map " %(threads, fq, i, bin,i) for i in sub_overlap]
     cmd2 = "\n".join(cmd)
     with open('cmd_overlap.sh', 'w') as fa:
         fa.write(cmd2)
